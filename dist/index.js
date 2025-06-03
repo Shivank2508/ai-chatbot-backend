@@ -1,20 +1,10 @@
-import express from "express";
-const app = express();
-//GET
-//PUT
-//POST
-//DELETE
-// Midleware
-app.use(express.json());
-// app.post("/hello", (req, res, next) => {
-//   console.log(req.body.name)
-//   return res.send("hello shivank are you making ai")
-// });
-app.delete("/user/:userId", (req, res) => {
-    console.log("DELETE route hit"); // 👈 Add this
-    console.log(req.params.userId);
-    return res.send("hello shivank are you making ai");
-});
+import app from "./app.js";
+import { connectToMongodb } from "./db/connection.js";
+const port = process.env.PORT || 8000;
+connectToMongodb()
+    .then(() => {
+    app.listen(port, () => console.log("Server Open"));
+})
+    .catch((err) => console.log(err));
 //connections and listners
-app.listen(8000, () => console.log("Server Open"));
 //# sourceMappingURL=index.js.map
