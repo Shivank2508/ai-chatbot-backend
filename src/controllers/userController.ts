@@ -24,6 +24,10 @@ export const postUserSignup = async (
 ) => {
     try {
         const { name, email, password } = req.body;
+        const existingUser = await user.findOne({ email })
+        if (existingUser) {
+            res.status(404).json({ message: "User is Already Exist" })
+        }
         const hashedPassword = await hash(password, 10);
         const users = new user({ name, email, password: hashedPassword });
         await users.save()
@@ -37,7 +41,7 @@ export const postUserSignup = async (
             }
         });
     } catch (error) {
-        console.error("Error fetching users:", error);
+        // console.error("Error fetching users:", error);
         res.status(500).json({ message: "Internal server error", error: error.message });
     }
 }
